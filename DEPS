@@ -28,7 +28,7 @@ vars = {
 
   'pyyaml_version': '3.12',
 
-  'chromium_git': 'https://chromium.googlesource.com/chromium/src.git@',
+  'chromium_git': 'https://github.com/gonzazoid/chromium.git@',
   'electron_git': 'https://github.com/electron',
   'nodejs_git': 'https://github.com/nodejs',
   'yaml_git': 'https://github.com/yaml',
