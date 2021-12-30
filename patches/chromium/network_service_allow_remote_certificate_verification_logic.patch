@@ -135,7 +135,7 @@ index e5497a2346da9d2d643885c846acb71bf11408be..5535c101c809f23f3adc85b06d42ee34
  namespace network {
  class CertVerifierWithTrustAnchors;
 +class RemoteCertVerifier;
- class CookieManager;
+ // class CookieManager;
  class ExpectCTReporter;
  class HostResolver;
 @@ -216,6 +217,8 @@ class COMPONENT_EXPORT(NETWORK_SERVICE) NetworkContext
@@ -145,8 +145,8 @@ index e5497a2346da9d2d643885c846acb71bf11408be..5535c101c809f23f3adc85b06d42ee34
 +  void SetCertVerifierClient(
 +      mojo::PendingRemote<mojom::CertVerifierClient> client) override;
    void ResetURLLoaderFactories() override;
-   void GetCookieManager(
-       mojo::PendingReceiver<mojom::CookieManager> receiver) override;
+   // void GetCookieManager(
+   //     mojo::PendingReceiver<mojom::CookieManager> receiver) override;
 @@ -755,6 +758,8 @@ class COMPONENT_EXPORT(NETWORK_SERVICE) NetworkContext
    CertVerifierWithTrustAnchors* cert_verifier_with_trust_anchors_ = nullptr;
  #endif
