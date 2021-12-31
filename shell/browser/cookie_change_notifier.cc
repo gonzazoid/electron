@@ -16,7 +16,7 @@ namespace electron {
 
 CookieChangeNotifier::CookieChangeNotifier(
     ElectronBrowserContext* browser_context)
-    : browser_context_(browser_context), receiver_(this) {
+    : /* browser_context_(browser_context), */ receiver_(this) {
   StartListening();
 }
 
@@ -35,18 +35,18 @@ void CookieChangeNotifier::StartListening() {
   DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
   DCHECK(!receiver_.is_bound());
 
-  network::mojom::CookieManager* cookie_manager =
-      browser_context_->GetDefaultStoragePartition()
-          ->GetCookieManagerForBrowserProcess();
+  // network::mojom::CookieManager* cookie_manager =
+  //     browser_context_->GetDefaultStoragePartition()
+  //         ->GetCookieManagerForBrowserProcess();
 
   // Cookie manager should be created whenever network context is created,
   // if this fails then there is something wrong with our context creation
   // cycle.
-  CHECK(cookie_manager);
+  // CHECK(cookie_manager);
 
-  cookie_manager->AddGlobalChangeListener(receiver_.BindNewPipeAndPassRemote());
-  receiver_.set_disconnect_handler(base::BindOnce(
-      &CookieChangeNotifier::OnConnectionError, base::Unretained(this)));
+  // cookie_manager->AddGlobalChangeListener(receiver_.BindNewPipeAndPassRemote());
+  // receiver_.set_disconnect_handler(base::BindOnce(
+  //     &CookieChangeNotifier::OnConnectionError, base::Unretained(this)));
 }
 
 void CookieChangeNotifier::OnConnectionError() {

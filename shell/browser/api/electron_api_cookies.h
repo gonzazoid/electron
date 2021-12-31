@@ -49,14 +49,14 @@ class Cookies : public gin::Wrappable<Cookies>,
   Cookies(v8::Isolate* isolate, ElectronBrowserContext* browser_context);
   ~Cookies() override;
 
-  v8::Local<v8::Promise> Get(v8::Isolate*,
-                             const gin_helper::Dictionary& filter);
-  v8::Local<v8::Promise> Set(v8::Isolate*,
-                             const base::DictionaryValue& details);
-  v8::Local<v8::Promise> Remove(v8::Isolate*,
-                                const GURL& url,
-                                const std::string& name);
-  v8::Local<v8::Promise> FlushStore(v8::Isolate*);
+  // v8::Local<v8::Promise> Get(v8::Isolate*,
+  //                            const gin_helper::Dictionary& filter);
+  // v8::Local<v8::Promise> Set(v8::Isolate*,
+  //                            const base::DictionaryValue& details);
+  // v8::Local<v8::Promise> Remove(v8::Isolate*,
+  //                               const GURL& url,
+  //                               const std::string& name);
+  // v8::Local<v8::Promise> FlushStore(v8::Isolate*);
 
   // CookieChangeNotifier subscription:
   void OnCookieChanged(const net::CookieChangeInfo& change);
