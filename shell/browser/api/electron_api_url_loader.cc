@@ -320,37 +320,37 @@ void SimpleURLLoaderWrapper::PinBodyGetter(v8::Local<v8::Value> body_getter) {
 
 SimpleURLLoaderWrapper::~SimpleURLLoaderWrapper() = default;
 
-void SimpleURLLoaderWrapper::OnAuthRequired(
-    const absl::optional<base::UnguessableToken>& window_id,
-    uint32_t request_id,
-    const GURL& url,
-    bool first_auth_attempt,
-    const net::AuthChallengeInfo& auth_info,
-    const scoped_refptr<net::HttpResponseHeaders>& head_headers,
-    mojo::PendingRemote<network::mojom::AuthChallengeResponder>
-        auth_challenge_responder) {
-  DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
-  mojo::Remote<network::mojom::AuthChallengeResponder> auth_responder(
-      std::move(auth_challenge_responder));
-  // WeakPtr because if we're Cancel()ed while waiting for auth, and the
-  // network service also decides to cancel at the same time and kill this
-  // pipe, we might end up trying to call Cancel again on dead memory.
-  auth_responder.set_disconnect_handler(base::BindOnce(
-      &SimpleURLLoaderWrapper::Cancel, weak_factory_.GetWeakPtr()));
-  auto cb = base::BindOnce(
-      [](mojo::Remote<network::mojom::AuthChallengeResponder> auth_responder,
-         gin::Arguments* args) {
-        std::u16string username_str, password_str;
-        if (!args->GetNext(&username_str) || !args->GetNext(&password_str)) {
-          auth_responder->OnAuthCredentials(absl::nullopt);
-          return;
-        }
-        auth_responder->OnAuthCredentials(
-            net::AuthCredentials(username_str, password_str));
-      },
-      std::move(auth_responder));
-  Emit("login", auth_info, base::AdaptCallbackForRepeating(std::move(cb)));
-}
+// void SimpleURLLoaderWrapper::OnAuthRequired(
+//     const absl::optional<base::UnguessableToken>& window_id,
+//     uint32_t request_id,
+//     const GURL& url,
+//     bool first_auth_attempt,
+//     const net::AuthChallengeInfo& auth_info,
+//     const scoped_refptr<net::HttpResponseHeaders>& head_headers,
+//     mojo::PendingRemote<network::mojom::AuthChallengeResponder>
+//         auth_challenge_responder) {
+//   DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
+//   mojo::Remote<network::mojom::AuthChallengeResponder> auth_responder(
+//       std::move(auth_challenge_responder));
+// WeakPtr because if we're Cancel()ed while waiting for auth, and the
+// network service also decides to cancel at the same time and kill this
+// pipe, we might end up trying to call Cancel again on dead memory.
+//   auth_responder.set_disconnect_handler(base::BindOnce(
+//       &SimpleURLLoaderWrapper::Cancel, weak_factory_.GetWeakPtr()));
+//   auto cb = base::BindOnce(
+//       [](mojo::Remote<network::mojom::AuthChallengeResponder> auth_responder,
+//          gin::Arguments* args) {
+//         std::u16string username_str, password_str;
+//         if (!args->GetNext(&username_str) || !args->GetNext(&password_str)) {
+//           auth_responder->OnAuthCredentials(absl::nullopt);
+//           return;
+//         }
+//         auth_responder->OnAuthCredentials(
+//             net::AuthCredentials(username_str, password_str));
+//       },
+//       std::move(auth_responder));
+//   Emit("login", auth_info, base::AdaptCallbackForRepeating(std::move(cb)));
+// }
 
 void SimpleURLLoaderWrapper::OnSSLCertificateError(
     const GURL& url,

@@ -67,15 +67,15 @@ class SimpleURLLoaderWrapper
   void OnRetry(base::OnceClosure start_retry) override;
 
   // network::mojom::URLLoaderNetworkServiceObserver:
-  void OnAuthRequired(
-      const absl::optional<base::UnguessableToken>& window_id,
-      uint32_t request_id,
-      const GURL& url,
-      bool first_auth_attempt,
-      const net::AuthChallengeInfo& auth_info,
-      const scoped_refptr<net::HttpResponseHeaders>& head_headers,
-      mojo::PendingRemote<network::mojom::AuthChallengeResponder>
-          auth_challenge_responder) override;
+  //   void OnAuthRequired(
+  //       const absl::optional<base::UnguessableToken>& window_id,
+  //       uint32_t request_id,
+  //       const GURL& url,
+  //       bool first_auth_attempt,
+  //       const net::AuthChallengeInfo& auth_info,
+  //       const scoped_refptr<net::HttpResponseHeaders>& head_headers,
+  //       mojo::PendingRemote<network::mojom::AuthChallengeResponder>
+  //           auth_challenge_responder) override;
   void OnSSLCertificateError(const GURL& url,
                              int net_error,
                              const net::SSLInfo& ssl_info,
